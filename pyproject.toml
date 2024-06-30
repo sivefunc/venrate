@@ -1,0 +1,25 @@
+# pyproject.toml
+
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bcv-api"
+version = "1.0.0"
+description = "Parses BCV html to get prices of currencies in VEF"
+readme = "README.md"
+authors = [{ name = "sivefunc", email = "sivefunc@tuta.io" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["bcv", "exchange", "api", "venezuela", "http"]
+dependencies = [
+]
+requires-python = ">=3.9"
+
+[project.urls]
+Homepage = "https://gitlab.com/sivefunc/bcv-api"
