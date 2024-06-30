@@ -2,14 +2,22 @@
 bcv-api is a small (fast ?) python library that connects to
 [BCV](https://www.bcv.org.ve) to parse html and get the current price of
 currencies in VEF. 
-![Logo](readme_res/logo.png)
+<img
+    src="readme_res/logo.png"
+    alt="bcv logo"
+    width="200"
+    height="200"/>
 
 # Requeriments
 - python3 >= 3.9
 - urllib and typing (standard libraries)
 
 # Using bcv-api
-![exchange-rates](readme_res/)
+<img
+    src="readme_res/exchange-rates.png"
+    alt="exchange rates"
+    width="200"
+    height="200"/>
 
 ```python3
 # importing BCV and creating object.
