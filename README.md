@@ -12,7 +12,7 @@ currencies in VEF.
 - python3 >= 3.9
 - urllib and typing (standard libraries)
 
-# Using bcv-api
+# Using bcv-api.
 <img
     src="readme_res/exchange-rates.png"
     alt="exchange rates"

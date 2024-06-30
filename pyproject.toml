@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bcv-api"
-version = "1.0.0"
+version = "1.0.1"
 description = "Parses BCV html to get prices of currencies in VEF"
 readme = "README.md"
 authors = [{ name = "sivefunc", email = "sivefunc@tuta.io" }]
