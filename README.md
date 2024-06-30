@@ -5,8 +5,8 @@ currencies in VEF.
 <img
     src="readme_res/logo.png"
     alt="bcv logo"
-    width="200"
-    height="200"/>
+    width="100"
+    height="100"/>
 
 # Requeriments
 - python3 >= 3.9
