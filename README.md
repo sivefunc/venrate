@@ -34,7 +34,7 @@ for currency, price in bcv_con.get_currencies().items():
 
 # Use last html saved by get_currencies() to not use internet in this query.
 cny = bcv_con.currencies[1]
-print(cny, bcv_con.get_currency(cny))
+print(cny, bcv_con.get_currency(cny, use_last_html=True))
 ```
 
 # Installation
