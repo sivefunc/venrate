@@ -1,4 +1,4 @@
-from urllib.request import urlopen
+import requests
 from typing import Dict
 
 class BCVerror(Exception):
@@ -103,7 +103,6 @@ class BCV:
         return currencies
 
     def get_html(self) -> str:
-        page = urlopen(self.url)
-        html_bytes = page.read()
-        html = html_bytes.decode("utf-8")
+        req = requests.get(self.url)
+        html = req.text
         return html
