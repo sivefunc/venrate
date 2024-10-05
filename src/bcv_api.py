@@ -16,7 +16,10 @@ class BCV:
                                 ['EUR', 'CNY', 'TRY', 'RUB', 'USD'])
     last_html: str = ""
 
-    def get_currency(self, currency: str, use_last_html=False) -> float:
+    def get_currency(self,
+                        currency: str,
+                        use_last_html=False,
+                        **kwargs) -> float:
         """
             parses BCV html page to get the price of a given currency on VEF.
             
@@ -43,7 +46,7 @@ class BCV:
             raise BCVerror(f"Currency {currency} not in available currencies: "
                             f"{self.currencies}")
         
-        html = self.get_html() if not use_last_html else self.last_html
+        html = self.get_html(**kwargs) if not use_last_html else self.last_html
         if (span_idx := html.find(currency)) == -1:
             raise BCVerror(f"Couldn't find <span>{currency}</span>"
                             " " f"did html has been changed?")
@@ -73,7 +76,7 @@ class BCV:
         self.last_html = html
         return price # :) 
 
-    def get_currencies(self, use_last_html=False) -> Dict[str, float]:
+    def get_currencies(self, use_last_html=False, **kwargs) -> Dict[str, float]:
         """
             get_currency() on each of the currencies available
             {EUR, CNY, TRY, RUB, USD]
@@ -92,18 +95,19 @@ class BCV:
             Notes:
                 1. get_currency().
         """
-        html = self.get_html() if not use_last_html else self.last_html
+        html = self.get_html(**kwargs) if not use_last_html else self.last_html
         self.last_html = html
 
         currencies = dict()
         for currency in self.currencies:
             currencies[currency] = self.get_currency(
-                                        currency, use_last_html=True)
-
+                                        currency,
+                                        use_last_html=True,
+                                        **kwargs)
         return currencies
 
-    def get_html(self) -> str:
-        req = requests.get(self.url)
+    def get_html(self, **kwargs) -> str:
+        req = requests.get(self.url, **kwargs)
         req.raise_for_status()
         html = req.text
         return html
