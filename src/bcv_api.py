@@ -61,12 +61,16 @@ class BCV:
 
         last_html:
             String cache for future requests.
+
+        timeout:
+            Time that request should wait for a response.
     """
 
     url: str = "https://www.bcv.org.ve"
     currencies: list[str] = field(default_factory = lambda:
                                 ['EUR', 'CNY', 'TRY', 'RUB', 'USD'])
     last_html: str = ""
+    timeout: int = 10
 
     def get_currency(self,
                         currency: str,
@@ -229,6 +233,9 @@ class BCV:
                 <https://stackoverflow.com/questions/16511337/correct-way-to-try-except-using-python-requests-module#16511493>
 
         """
+
+        if kwargs.get('timeout') is None:
+            kwargs['timeout'] = self.timeout
 
         req = requests.get(self.url, **kwargs)
         req.raise_for_status()
