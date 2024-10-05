@@ -10,7 +10,8 @@ currencies in VEF.
 
 # Requeriments
 - python3 >= 3.9
-- urllib and typing (standard libraries)
+- requests >= 2.32.3
+- dataclasses and typing (standard libraries)
 
 # Using bcv-api.
 <img
