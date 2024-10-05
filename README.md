@@ -4,7 +4,7 @@ bcv-api is a small (fast ?) python library that connects to
 currencies in VEF. 
 <div align="center">
 <img
-    src="https://codeberg.org/Sivefunc/bcv-api/src/branch/main/readme_res/logo.png"
+    src="https://codeberg.org/Sivefunc/bcv-api/raw/branch/main/readme_res/logo.png"
     alt="bcv logo"
     width="200"
     height="200"/>
@@ -18,7 +18,7 @@ currencies in VEF.
 # Using bcv-api.
 <div align="center">
 <img
-    src="https://codeberg.org/Sivefunc/bcv-api/src/branch/main/readme_res/exchange-rates.png"
+    src="https://codeberg.org/Sivefunc/bcv-api/raw/branch/main/readme_res/exchange-rates.png"
     alt="exchange rates"
     width="200"
     height="200"/>
