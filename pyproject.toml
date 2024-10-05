@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 name = "bcv-api"
 dynamic = ["version"]
 description = "Parses BCV html to get prices of currencies in VEF"
-readme = "README.md"
+readme = {file = 'README.md', content-type='text/markdown', charset="UTF-8", variant="GFM"}
 authors = [{ name = "sivefunc", email = "sivefunc@tuta.io" }]
 license = { file = "LICENSE" }
 classifiers = [
