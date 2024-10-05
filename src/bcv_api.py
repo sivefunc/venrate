@@ -104,5 +104,6 @@ class BCV:
 
     def get_html(self) -> str:
         req = requests.get(self.url)
+        req.raise_for_status()
         html = req.text
         return html
