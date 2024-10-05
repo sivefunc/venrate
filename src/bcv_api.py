@@ -122,7 +122,7 @@ class BCV:
         if currency not in self.currencies:
             raise BCVerror(f"Currency {currency} not in available currencies: "
                             f"{self.currencies}")
-        
+
         html = self.get_html(**kwargs) if not use_last_html else self.last_html
         # <span>Currency</span>
         if (span_idx := html.find(currency)) == -1:
@@ -138,7 +138,7 @@ class BCV:
         if (close_strong_idx := html.find("</strong>", open_strong_idx)) == -1:
             raise BCVerror(f"Couldn't find closing tag </strong> of {currency}"
                             " " f"did html has been changed?")
-                            
+
         # Hopefully everything went well
         # <strong> Price </strong>
         price = html[open_strong_idx + len('<strong>') : close_strong_idx]
@@ -148,19 +148,18 @@ class BCV:
         if not price:
             raise BCVerror("No price (empty) found on <strong></strong>"
                             " " "did html has been changed?")
-        
+
         # BCV uses comma as decimal separator.
         try:
             price = float(price.replace(',', '.'))
 
         except Exception as error:
             raise BCVerror(f"Couldn't convert {currency} price to float: "
-                            f"'{price}' did html has been changed?")
-                            
+                            f"'{price}' did html has been changed?") from error
+
         # Everything went well, cache the result.
         self.last_html = html
-
-        return price # :) 
+        return price # :)
 
     def get_currencies(self, use_last_html=False, **kwargs) -> Dict[str, float]:
         """GET BCV currencies exchange rates to VEF.
@@ -200,7 +199,7 @@ class BCV:
         html = self.get_html(**kwargs) if not use_last_html else self.last_html
         self.last_html = html
 
-        currencies = dict()
+        currencies = {}
         for currency in self.currencies:
             currencies[currency] = self.get_currency(
                                         currency,
