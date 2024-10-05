@@ -5,6 +5,8 @@ related to GET request BCV website and Parse the corresponding HTML page
 to obtain the different exchanges rates that the website has.
 """
 
+from _version import __version__
+
 # -----------------------------------------------------------------------------
 # Imports
 # -----------------------------------------------------------------------------
