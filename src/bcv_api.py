@@ -1,5 +1,6 @@
 import requests
 from typing import Dict
+from dataclasses import dataclass, field
 
 class BCVerror(Exception):
     def __init__(self, message):
@@ -8,13 +9,12 @@ class BCVerror(Exception):
     def __str__(self):
         return self.message
 
+@dataclass
 class BCV:
-    url = "https://www.bcv.org.ve"
-    currencies = ['EUR', 'CNY', 'TRY', 'RUB', 'USD']
-    last_html = ""
-
-    def __init__(self):
-        pass
+    url: str = "https://www.bcv.org.ve"
+    currencies: list[str] = field(default_factory = lambda:
+                                ['EUR', 'CNY', 'TRY', 'RUB', 'USD'])
+    last_html: str = ""
 
     def get_currency(self, currency: str, use_last_html=False) -> float:
         """
