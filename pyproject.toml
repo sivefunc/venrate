@@ -5,9 +5,9 @@ requires      = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "bcv-api"
+name = "venrate"
 dynamic = ["version"]
-description = "Parses BCV html to get prices of currencies in VEF"
+description = "Venrate description soon will change"
 readme = {file = 'README.md', content-type='text/markdown', charset="UTF-8", variant="GFM"}
 authors = [{ name = "sivefunc", email = "sivefunc@tuta.io" }]
 license = { file = "LICENSE" }
@@ -26,4 +26,4 @@ requires-python = ">=3.9"
 version = {attr = "_version.__version__"}
 
 [project.urls]
-Homepage = "https://gitlab.com/sivefunc/bcv-api"
+Homepage = "https://gitlab.com/sivefunc/"
