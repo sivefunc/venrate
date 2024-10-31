@@ -3,6 +3,7 @@ from typing import Callable, Dict
 
 import binance
 import bcv_api
+import yadio
 
 class VenrateError(Exception):
     """Venrate related
@@ -19,7 +20,8 @@ class Venrate:
     platforms: Dict = field(
         default_factory=lambda:{
             'binance': binance.Binance(),
-            'bcv': bcv_api.BCV()
+            'bcv': bcv_api.BCV(),
+            'yadio': yadio.Yadio()
             })
 
     def get_currency(self,
