@@ -39,13 +39,14 @@ class Binance():
     timeout: int = 10
 
     def get_currency(self,
-            currency: str = "USDT",
-            use_last_request: bool = True,
+            currency: str,
+            use_last_request: bool = False,
             **kwargs):
 
         if kwargs.get('timeout') is None:
             kwargs['timeout'] = self.timeout
 
+        self.payload['asset'] = currency
         response = requests.request(
                 'POST',
                 self.url,
