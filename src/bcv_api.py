@@ -124,6 +124,9 @@ class BCV:
                 <https://stackoverflow.com/questions/16511337/correct-way-to-try-except-using-python-requests-module#16511493>
         """
 
+        if not currency.strip():
+            raise BCVerror("Currency must not be empty")
+
         # Currency is not on the list.
         if currency not in self.currencies:
             raise BCVerror(f"Currency {currency} not in available currencies: "

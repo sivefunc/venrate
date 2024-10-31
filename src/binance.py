@@ -43,6 +43,9 @@ class Binance():
             use_last_request: bool = False,
             **kwargs):
 
+        if not currency.strip():
+            raise BinanceError("Currency must not be empty")
+
         if kwargs.get('timeout') is None:
             kwargs['timeout'] = self.timeout
 
