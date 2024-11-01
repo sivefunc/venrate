@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
-from typing import Callable, Dict
+from typing import Dict
 
-import binance
-import bcv_api
-import yadio
+from platforms import (
+        binance,
+        bcv_api,
+        yadio)
 
 class VenrateError(Exception):
     """Venrate related
