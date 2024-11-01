@@ -4,7 +4,8 @@ from typing import Dict
 from platforms import (
         binance,
         bcv_api,
-        yadio)
+        yadio,
+        monitordolar)
 
 class VenrateError(Exception):
     """Venrate related
@@ -22,7 +23,8 @@ class Venrate:
         default_factory=lambda:{
             'binance': binance.Binance(),
             'bcv': bcv_api.BCV(),
-            'yadio': yadio.Yadio()
+            'yadio': yadio.Yadio(),
+            'monitordolar': monitordolar.MonitorDolar()
             })
 
     def get_currency(self,
