@@ -27,7 +27,7 @@ class Venrate:
             'monitordolar': monitordolar.MonitorDolar()
             })
 
-    def get_currency(self,
+    def get_rate(self,
             platform,
             currency: str,
             use_last_request: bool = False,
@@ -37,5 +37,5 @@ class Venrate:
             platforms = self.platforms.keys()
             raise VenrateError(f"Platform {platform} not in {platforms}")
 
-        return platform_class.get_currency(
+        return platform_class.get_rate(
                 currency, use_last_request, **kwargs);

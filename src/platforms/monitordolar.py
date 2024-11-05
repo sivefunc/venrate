@@ -18,11 +18,7 @@ class MonitorDolar():
     last_request: str = ""
     timeout: int = 10
 
-    def get_currency(self,
-            currency: str,
-            use_last_request: bool = False,
-            **kwargs):
-
+    def get_rate(self, currency: str, use_last_req=False, **kwargs) -> float:
         if not currency.strip():
             raise MonitorDolarError("Currency must not be empty")
 

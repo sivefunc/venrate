@@ -74,10 +74,7 @@ class BCV:
     last_html: str = ""
     timeout: int = 10
 
-    def get_currency(self,
-                        currency: str,
-                        use_last_html=False,
-                        **kwargs) -> float:
+    def get_rate(self, currency: str, use_last_html=False, **kwargs) -> float:
         """GET currency exchange rate to VEF.
         
         GET request to BCV (Banco Central de Venezuela) website to
@@ -170,10 +167,10 @@ class BCV:
         self.last_html = html
         return price # :)
 
-    def get_currencies(self, use_last_html=False, **kwargs) -> Dict[str, float]:
+    def get_rates(self, use_last_html=False, **kwargs) -> Dict[str, float]:
         """GET BCV currencies exchange rates to VEF.
 
-        get_currency() on each of the currencies listed on BCV.
+        get_rate() on each of the currencies listed on BCV.
         {EUR, CNY, TRY, RUB, USD}
 
         Args:
@@ -201,7 +198,7 @@ class BCV:
             HTTPError: 400 <= x < 600
 
         Notes:
-            get_currency():
+            get_rate():
                 This is the function in 'singular' it explains on detail
                 things like Raises or code internally.
         """
@@ -210,7 +207,7 @@ class BCV:
 
         currencies = {}
         for currency in self.currencies:
-            currencies[currency] = self.get_currency(
+            currencies[currency] = self.get_rate(
                                         currency,
                                         use_last_html=True,
                                         **kwargs)
