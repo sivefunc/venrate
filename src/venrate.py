@@ -3,7 +3,7 @@ from typing import Dict
 
 from platforms import (
         binance,
-        bcv_api,
+        bcv,
         yadio,
         monitordolar)
 
@@ -22,7 +22,7 @@ class Venrate:
     platforms: Dict = field(
         default_factory=lambda:{
             'binance': binance.Binance(),
-            'bcv': bcv_api.BCV(),
+            'bcv': bcv.BCV(),
             'yadio': yadio.Yadio(),
             'monitordolar': monitordolar.MonitorDolar()
             })
