@@ -80,3 +80,8 @@ class MonitorDolar():
                     )
 
         return price
+
+if __name__ == '__main__':
+    monitordolar = MonitorDolar()
+    rate = monitordolar.get_rate('USD')
+    print(f"MonitorDolar rate is: {rate}")

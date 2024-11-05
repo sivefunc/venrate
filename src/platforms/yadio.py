@@ -34,3 +34,8 @@ class Yadio():
         
         price = r_json['rate']
         return price
+
+if __name__ == '__main__':
+    yadio = Yadio()
+    rate = yadio.get_rate('USD')
+    print(f"Yadio rate is: {rate}")

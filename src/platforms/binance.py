@@ -66,3 +66,8 @@ class Binance():
                                 f"JSON response: {r_json}") from error
 
         return price
+
+if __name__ == '__main__':
+    binance = Binance()
+    rate = binance.get_rate('USDT')
+    print(f"Binance rate is: {rate}")

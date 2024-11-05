@@ -39,3 +39,16 @@ class Venrate:
 
         return platform_class.get_rate(
                 currency, use_last_request, **kwargs);
+
+if __name__ == '__main__':
+    venrate = Venrate()
+    for platform in venrate.platforms.keys():
+        # Binance only does crypto.
+        currency = 'USD' if platform != 'binance' else 'USDT'
+        rate = venrate.get_rate(
+                platform,
+                currency,
+                use_last_request=False,
+                timeout=10)
+
+        print(f"{platform} rate is: {rate}") 

@@ -5,8 +5,6 @@ related to GET request BCV website and Parse the corresponding HTML page
 to obtain the different exchanges rates that the website has.
 """
 
-from _version import __version__
-
 # -----------------------------------------------------------------------------
 # Imports
 # -----------------------------------------------------------------------------
@@ -245,3 +243,7 @@ class BCV:
         return html
 
 # (1 + 3 + 5 + 7 + 9 + ... + n) = (n**2 + 2 - 1) // 2
+if __name__ == '__main__':
+    bcv = BCV()
+    rate = bcv.get_rate('USD')
+    print(f"BCV rate is: {rate}")
