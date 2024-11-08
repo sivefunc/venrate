@@ -15,18 +15,23 @@ class MonitorDolarError(Exception):
 @dataclass
 class MonitorDolar():
     url: str = "https://t.me/s/enparalelovzlatelegram"
-    last_request: str = ""
+    last_response: requests.Response = None
     timeout: int = 10
 
-    def get_rate(self, currency: str, use_last_req=False, **kwargs) -> float:
+    def get_rate(self, currency: str, use_last_response=False, **kwargs) -> float:
         if not currency.strip():
             raise MonitorDolarError("Currency must not be empty")
 
         if kwargs.get('timeout') is None:
             kwargs['timeout'] = self.timeout
 
-        response = requests.get(self.url, **kwargs)
-        response.raise_for_status()
+        if not use_last_response:
+            response = requests.get(self.url, **kwargs)
+            response.raise_for_status()
+        
+        else:
+            response = self.last_response
+
         html = response.text
         price = None
 
@@ -79,9 +84,10 @@ class MonitorDolar():
                     " " "did Telegram or MonitorDolar changed the format?"
                     )
 
+        self.last_response = response
         return price
 
 if __name__ == '__main__':
     monitordolar = MonitorDolar()
-    rate = monitordolar.get_rate('USD')
+    rate = monitordolar.get_rate('USD', use_last_response=False, timeout=10)
     print(f"MonitorDolar rate is: {rate}")

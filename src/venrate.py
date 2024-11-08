@@ -7,6 +7,8 @@ from platforms import (
         yadio,
         monitordolar)
 
+from _version import __version__
+
 class VenrateError(Exception):
     """Venrate related
     """
@@ -49,6 +51,7 @@ if __name__ == '__main__':
                 platform,
                 currency,
                 use_last_request=False,
-                timeout=10)
+                timeout=10,
+                verify=False)
 
         print(f"{platform} rate is: {rate}") 

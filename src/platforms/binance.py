@@ -35,10 +35,14 @@ class Binance():
         })
 
     url: str = "https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search"
-    last_request: str = ""
+    last_response: requests.Response = None
     timeout: int = 10
 
-    def get_rate(self, currency: str, use_last_req=False, **kwargs) -> float:
+    def get_rate(self,
+            currency: str,
+            use_last_response=False,
+            **kwargs) -> float:
+
         if not currency.strip():
             raise BinanceError("Currency must not be empty")
 
@@ -46,13 +50,18 @@ class Binance():
             kwargs['timeout'] = self.timeout
 
         self.payload['asset'] = currency
-        response = requests.request(
-                'POST',
-                self.url,
-                json=self.payload,
-                **kwargs)
+        if not use_last_response:
+            response = requests.request(
+                    'POST',
+                    self.url,
+                    json=self.payload,
+                    **kwargs)
 
-        response.raise_for_status()
+            response.raise_for_status()
+
+        else:
+            response = self.last_response
+
         r_json = response.json()
         if not r_json['success'] or not r_json['data']:
             raise BinanceError(f"POST request Payload failed or not data\n"
@@ -65,9 +74,10 @@ class Binance():
             raise BinanceError(f"No price found on JSON or couldn't convert\n"
                                 f"JSON response: {r_json}") from error
 
+        self.last_response = response
         return price
 
 if __name__ == '__main__':
     binance = Binance()
-    rate = binance.get_rate('USDT')
+    rate = binance.get_rate('USDT', use_last_response=False, timeout=10)
     print(f"Binance rate is: {rate}")
