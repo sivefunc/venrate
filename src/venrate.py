@@ -15,11 +15,12 @@ import exchange
 class Venrate(exchange.Exchange):
     platforms: Dict = field(
         default_factory=lambda:{
-            'binance': binance.Binance(),
-            'bcv': bcv.BCV(),
-            'yadio': yadio.Yadio(),
-            'monitordolar': monitordolar.MonitorDolar()
-            })
+            'BINANCE': binance.Binance(),
+            'YADIO': yadio.Yadio(),
+            'MONITORDOLAR': monitordolar.MonitorDolar(),
+            'BCV': bcv.BCV(),
+            }
+        )
 
     def get_rate(self,
             platform: str,
@@ -29,6 +30,7 @@ class Venrate(exchange.Exchange):
             url: str = None,
             **kwargs) -> float:
 
+        platform = platform.upper()
         if (platform_class := self.platforms.get(platform)) is None:
             platforms = self.platforms.keys()
             raise exchange.Exchange(
@@ -46,7 +48,7 @@ if __name__ == '__main__':
     venrate = Venrate()
     for platform in venrate.platforms.keys():
         # Binance only does crypto.
-        currency = 'USD' if platform != 'binance' else 'USDT'
+        currency = 'USD' if platform != 'BINANCE' else 'USDT'
         rate = venrate.get_rate(
                 platform,
                 currency,

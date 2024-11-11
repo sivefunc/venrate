@@ -94,7 +94,7 @@ class BCV(exchange.Exchange):
             raise exchange.ExchangeError("Currency must not be empty")
 
         # Currency is not on the list.
-        if currency not in self.currencies:
+        if currency.upper() not in self.currencies:
             raise exchange.ExchangeError(
                     f"Currency {currency} not in available currencies: "
                         f"{self.currencies}", None)
