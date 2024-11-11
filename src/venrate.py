@@ -9,18 +9,10 @@ from platforms import (
 
 from _version import __version__
 
-class VenrateError(Exception):
-    """Venrate related
-    """
-
-    def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return self.message
+import exchange
 
 @dataclass
-class Venrate:
+class Venrate(exchange.Exchange):
     platforms: Dict = field(
         default_factory=lambda:{
             'binance': binance.Binance(),
@@ -30,17 +22,25 @@ class Venrate:
             })
 
     def get_rate(self,
-            platform,
+            platform: str,
             currency: str,
-            use_last_request: bool = False,
-            **kwargs):
+            use_last_response=False,
+            method: str = None,
+            url: str = None,
+            **kwargs) -> float:
 
         if (platform_class := self.platforms.get(platform)) is None:
             platforms = self.platforms.keys()
-            raise VenrateError(f"Platform {platform} not in {platforms}")
+            raise exchange.Exchange(
+                    f"Platform {platform} not in {platforms}",
+                    response=None)
 
         return platform_class.get_rate(
-                currency, use_last_request, **kwargs);
+                currency,
+                method=method or self.method,
+                url=url or self.url,
+                use_last_response=use_last_response,
+                **kwargs);
 
 if __name__ == '__main__':
     venrate = Venrate()
@@ -50,8 +50,8 @@ if __name__ == '__main__':
         rate = venrate.get_rate(
                 platform,
                 currency,
-                use_last_request=False,
+                use_last_response=False,
                 timeout=10,
-                verify=False)
+                verify=True)
 
         print(f"{platform} rate is: {rate}") 

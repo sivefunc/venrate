@@ -2,40 +2,32 @@ from dataclasses import dataclass
 
 import requests
 
-class YadioError(Exception):
-    """Yadio json response related errors
-    """
-
-    def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return self.message
+import exchange
 
 @dataclass
-class Yadio():
+class Yadio(exchange.Exchange):
+    method: str = "GET"
     url: str = "https://api.yadio.io/rate/VES/"
-    last_response: requests.Response = None
-    timeout: int = 10
 
-    def get_rate(self, currency: str, use_last_response=False, **kwargs) -> float:
+    def get_rate(self,
+            currency: str,
+            use_last_response=False,
+            method: str = None,
+            url: str = None,
+            **kwargs) -> float:
 
         if not currency.strip():
-            raise YadioError("Currency must not be empty")
+            raise exchange.ExchangeError("Currency must not be empty", None)
 
-        if kwargs.get('timeout') is None:
-            kwargs['timeout'] = self.timeout
-
-        if not use_last_response:
-            response = requests.get(f"{self.url}{currency}", **kwargs)
-            response.raise_for_status()
-
-        else:
-            response = self.last_response
+        response = self.get_response(
+                method = method or self.method,
+                url = f"{url or self.url}{currency}",
+                use_last_response=use_last_response,
+                **kwargs)
 
         r_json = response.json()
         if (error_msg := r_json.get('error')) is not None:
-            raise YadioError(error_msg)
+            raise exchange.ExchangeError(error_msg, response)
         
         price = r_json['rate']
         self.last_response = response 

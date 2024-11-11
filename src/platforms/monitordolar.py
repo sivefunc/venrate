@@ -2,35 +2,28 @@ from dataclasses import dataclass
 
 import requests
 
-class MonitorDolarError(Exception):
-    """MonitorDolar HTML response related errors
-    """
-
-    def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return self.message
+import exchange
 
 @dataclass
-class MonitorDolar():
+class MonitorDolar(exchange.Exchange):
+    method: str = "GET"
     url: str = "https://t.me/s/enparalelovzlatelegram"
-    last_response: requests.Response = None
-    timeout: int = 10
 
-    def get_rate(self, currency: str, use_last_response=False, **kwargs) -> float:
+    def get_rate(self,
+            currency: str,
+            use_last_response=False,
+            method: str = None,
+            url: str = None,
+            **kwargs) -> float:
+
         if not currency.strip():
-            raise MonitorDolarError("Currency must not be empty")
+            raise exchange.ExchangeError("Currency must not be empty", None)
 
-        if kwargs.get('timeout') is None:
-            kwargs['timeout'] = self.timeout
-
-        if not use_last_response:
-            response = requests.get(self.url, **kwargs)
-            response.raise_for_status()
-        
-        else:
-            response = self.last_response
+        response = self.get_response(
+                method = method or self.method,
+                url = url or self.url,
+                use_last_response=use_last_response,
+                **kwargs)
 
         html = response.text
         price = None
@@ -66,22 +59,25 @@ class MonitorDolar():
             price = html[rate_start_idx + len("Bs."):rate_end_idx].strip()
             
             if not price:
-                raise MonitorDolarError(
+                raise exchange.ExchangeError(
                         "No price (empty) found on </i> Bs. PRICE </br>"
-                        " " "did Telegram or MonitorDolar has been changed?")
+                            " " "did Telegram or MonitorDolar has been changed?",
+                        None)
 
             # MonitorDolar uses comma as decimal separator.
             try:
                 price = float(price.replace(',', '.'))
 
             except Exception as error:
-                raise MonitorDolarError(
-                        f"Couldn't convert '{price}' to float") from error
+                raise exchange.ExchangeError(
+                        f"Couldn't convert '{price}' to float", None) \
+                    from error
             
         if price is None:
-            raise MonitorDolarError(
+            raise exchange.ExchangeError(
                     "</i> Bs. PRICE </br> Not found on entire website"
-                    " " "did Telegram or MonitorDolar changed the format?"
+                        " " "did Telegram or MonitorDolar changed the format?",
+                    None
                     )
 
         self.last_response = response
