@@ -21,16 +21,6 @@ import exchange
 @dataclass
 class BCV(exchange.Exchange):
     """Extract information from BCV
-
-    Attributes:
-        url:
-            String Address to GET request the html price.
-
-        last_response:
-            request.Response cache for future requests.
-
-        timeout:
-            Time that request should wait for a response.
     """
 
     method: str = "GET"
@@ -56,7 +46,7 @@ class BCV(exchange.Exchange):
         <strong>Price</strong>
         
         Args:
-            currency:
+            currency_to:
                 ISO 4217 code, e.g: united states dollar is USD.
                 BCV only has EUR, CNY, TRY, RUB and USD.
 

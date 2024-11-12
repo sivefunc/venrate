@@ -1,5 +1,5 @@
 # venrate
-venrate is a library to get the exchange rate from currency A to currency B from different platforms like [BCV](https://www.bcv.org.ve).
+Venrate is a library to get the exchange rate from currency A to currency B from different platforms like [BCV](https://www.bcv.org.ve).
 
 <div align="center">
 <img
