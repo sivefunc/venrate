@@ -25,9 +25,12 @@ class Exchange:
     method: str = None
     url: str = None
     last_response: requests.Response = None
+    currency_from: str = None
+    currency_to: str = None
 
     def get_rate(self,
-            currency: str,
+            currency_from: str = None,
+            currency_to: str = None,
             use_last_response=False,
             method: str = None,
             url: str = None,

@@ -9,14 +9,17 @@ import exchange
 class Binance(exchange.Exchange):
     method: str = "POST"
     url: str = "https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search"
+    currency_from: str = "VES"
+    currency_to: str = "USDT"
+
     payload: Dict[str, str | int | list | bool] = field(
         default_factory=lambda:{
-            "fiat": "VES",
+            "fiat": Binance.currency_from,
             "page": 1,
             "rows": 10,
             "order": "trade_count",
             "tradeType": "BUY",
-            "asset": "USDT",
+            "asset": Binance.currency_to,
             "countries": [],
             "proMerchantAds": False,
             "shieldMerchantAds": False,
@@ -29,16 +32,25 @@ class Binance(exchange.Exchange):
         })
 
     def get_rate(self,
-            currency: str,
+            currency_from: str = None,
+            currency_to: str = None,
             use_last_response=False,
             method: str = None,
             url: str = None,
             **kwargs) -> float:
 
-        if not currency.strip():
-            raise exchange.ExchangeError("Currency must not be empty", None)
+        currency_from = currency_from or self.currency_from
+        currency_to = currency_to or self.currency_to
 
-        self.payload['asset'] = currency
+        if not currency_from.strip() or not currency_to.strip():
+            raise exchange.ExchangeError(
+                    f"Currency from '{currency_from}' AND"
+                        " " f"Currency to '{currency_to}' must not be empty",
+                    None)
+
+        self.payload['fiat'] = currency_from
+        self.payload['asset'] = currency_to
+
         response = self.get_response(
                 method=method or self.method,
                 url=url or self.url,
@@ -65,5 +77,11 @@ class Binance(exchange.Exchange):
 
 if __name__ == '__main__':
     binance = Binance()
-    rate = binance.get_rate('USDT', use_last_response=False, timeout=10)
-    print(f"Binance rate is: {rate}")
+    currency_from, currency_to = binance.currency_from, binance.currency_to
+    rate = binance.get_rate(
+            currency_from,
+            currency_to,
+            use_last_response=False,
+            timeout=10)
+
+    print(f"Binance rate from '{currency_from}' to '{currency_to}' is '{rate}'")

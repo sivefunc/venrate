@@ -24,7 +24,8 @@ class Venrate(exchange.Exchange):
 
     def get_rate(self,
             platform: str,
-            currency: str,
+            currency_from: str = None,
+            currency_to: str = None,
             use_last_response=False,
             method: str = None,
             url: str = None,
@@ -38,22 +39,26 @@ class Venrate(exchange.Exchange):
                     response=None)
 
         return platform_class.get_rate(
-                currency,
-                method=method or self.method,
-                url=url or self.url,
+                currency_from = currency_from,
+                currency_to = currency_to,
+                method = method or self.method,
+                url = url or self.url,
                 use_last_response=use_last_response,
                 **kwargs);
 
 if __name__ == '__main__':
     venrate = Venrate()
-    for platform in venrate.platforms.keys():
-        # Binance only does crypto.
-        currency = 'USD' if platform != 'BINANCE' else 'USDT'
+    for p_name, platform in venrate.platforms.items():
+        currency_from = platform.currency_from
+        currency_to = platform.currency_to
+
         rate = venrate.get_rate(
-                platform,
-                currency,
+                p_name,
+                currency_from,
+                currency_to,
                 use_last_response=False,
                 timeout=10,
                 verify=True)
 
-        print(f"{platform} rate is: {rate}") 
+        print(f"{p_name} rate from '{currency_from}' to '{currency_to}' is"
+                " " f"'{rate}'")

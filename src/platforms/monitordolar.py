@@ -8,16 +8,25 @@ import exchange
 class MonitorDolar(exchange.Exchange):
     method: str = "GET"
     url: str = "https://t.me/s/enparalelovzlatelegram"
+    currency_from: str = "BS"
+    currency_to: str = "USD"
 
     def get_rate(self,
-            currency: str,
+            currency_from: str = None,
+            currency_to: str = None,
             use_last_response=False,
             method: str = None,
             url: str = None,
             **kwargs) -> float:
 
-        if not currency.strip():
-            raise exchange.ExchangeError("Currency must not be empty", None)
+        currency_from = currency_from or self.currency_from
+        currency_to = currency_to or self.currency_to
+
+        if not currency_from.strip() or not currency_to.strip():
+            raise exchange.ExchangeError(
+                    f"Currency from '{currency_from}' AND"
+                        " " f"Currency to '{currency_to}' must not be empty",
+                    None)
 
         response = self.get_response(
                 method = method or self.method,
@@ -85,5 +94,14 @@ class MonitorDolar(exchange.Exchange):
 
 if __name__ == '__main__':
     monitordolar = MonitorDolar()
-    rate = monitordolar.get_rate('USD', use_last_response=False, timeout=10)
-    print(f"MonitorDolar rate is: {rate}")
+    currency_from = monitordolar.currency_from
+    currency_to = monitordolar.currency_to
+
+    rate = monitordolar.get_rate(
+            currency_from,
+            currency_to,
+            use_last_response=False,
+            timeout=10)
+
+    print(f"MonitorDolar rate from '{currency_from}' to '{currency_to}' is"
+            " " f"'{rate}'")

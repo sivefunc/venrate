@@ -26,9 +26,6 @@ class BCV(exchange.Exchange):
         url:
             String Address to GET request the html price.
 
-        currencies:
-            List of available currencies that can be consulted.
-
         last_response:
             request.Response cache for future requests.
 
@@ -38,11 +35,12 @@ class BCV(exchange.Exchange):
 
     method: str = "GET"
     url: str = "https://www.bcv.org.ve"
-    currencies: list[str] = field(default_factory = lambda:
-                                ['EUR', 'CNY', 'TRY', 'RUB', 'USD'])
+    currency_from: str = "BS"
+    currency_to: str = "USD"
 
     def get_rate(self,
-                currency: str,
+                currency_from: str = None,
+                currency_to: str = None,
                 use_last_response=False,
                 method: str = None,
                 url: str = None,
@@ -90,14 +88,14 @@ class BCV(exchange.Exchange):
                 <https://stackoverflow.com/questions/16511337/correct-way-to-try-except-using-python-requests-module#16511493>
         """
 
-        if not currency.strip():
-            raise exchange.ExchangeError("Currency must not be empty")
+        currency_from = currency_from or self.currency_from
+        currency_to = currency_to or self.currency_to
 
-        # Currency is not on the list.
-        if currency.upper() not in self.currencies:
+        if not currency_from.strip() or not currency_to.strip():
             raise exchange.ExchangeError(
-                    f"Currency {currency} not in available currencies: "
-                        f"{self.currencies}", None)
+                    f"Currency from '{currency_from}' AND"
+                        " " f"Currency to '{currency_to}' must not be empty",
+                    None)
 
         response = self.get_response(
                 method = method or self.method,
@@ -107,6 +105,7 @@ class BCV(exchange.Exchange):
 
         html = response.text
 
+        currency = currency_to
         # <span>Currency</span>
         if (span_idx := html.find(currency)) == -1:
             raise exchange.ExchangeError(
@@ -150,8 +149,15 @@ class BCV(exchange.Exchange):
         self.last_response = response
         return price # :)
 
-# (1 + 3 + 5 + 7 + 9 + ... + n) = (n**2 + 2 - 1) // 2
 if __name__ == '__main__':
     bcv = BCV()
-    rate = bcv.get_rate('USD', use_last_response=False, timeout=10, verify=False)
-    print(f"BCV rate is: {rate}")
+    currency_from, currency_to = bcv.currency_from, bcv.currency_to
+    rate = bcv.get_rate(
+            currency_from,
+            currency_to,
+            use_last_response=False,
+            timeout=10, verify=False)
+
+    print(f"BCV rate from '{currency_from}' to '{currency_to}' is '{rate}'")
+
+# (1 + 3 + 5 + 7 + 9 + ... + n) = (n**2 + 2 - 1) // 2

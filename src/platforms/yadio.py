@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import os.path
 
 import requests
 
@@ -7,21 +8,32 @@ import exchange
 @dataclass
 class Yadio(exchange.Exchange):
     method: str = "GET"
-    url: str = "https://api.yadio.io/rate/VES/"
+    url: str = "https://api.yadio.io/rate"
+    currency_from: str = "VES"
+    currency_to: str = "USD"
 
     def get_rate(self,
-            currency: str,
+            currency_from: str = None,
+            currency_to: str = None,
             use_last_response=False,
             method: str = None,
             url: str = None,
             **kwargs) -> float:
 
-        if not currency.strip():
-            raise exchange.ExchangeError("Currency must not be empty", None)
+        currency_from = currency_from or self.currency_from
+        currency_to = currency_to or self.currency_to
+
+        if not currency_from.strip() or not currency_to.strip():
+            raise exchange.ExchangeError(
+                    f"Currency from '{currency_from}' AND"
+                        " " f"Currency to '{currency_to}' must not be empty",
+                    None)
 
         response = self.get_response(
                 method = method or self.method,
-                url = f"{url or self.url}{currency}",
+                url = os.path.join(
+                    url or self.url,
+                    currency_from, currency_to),
                 use_last_response=use_last_response,
                 **kwargs)
 
@@ -35,5 +47,11 @@ class Yadio(exchange.Exchange):
 
 if __name__ == '__main__':
     yadio = Yadio()
-    rate = yadio.get_rate('USD', use_last_response=False, timeout=10)
-    print(f"Yadio rate is: {rate}")
+    currency_from, currency_to = yadio.currency_from, yadio.currency_to
+    rate = yadio.get_rate(
+            currency_from,
+            currency_to,
+            use_last_response=False,
+            timeout=10)
+
+    print(f"Yadio rate from '{currency_from}' to '{currency_to}' is '{rate}'")
