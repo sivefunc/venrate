@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "venrate"
 dynamic = ["version"]
-description = "Venrate description soon will change"
+description = "venrate get exchange rates from different platforms"
 readme = {file = 'README.md', content-type='text/markdown', charset="UTF-8", variant="GFM"}
 authors = [{ name = "sivefunc", email = "sivefunc@tuta.io" }]
 license = { file = "LICENSE" }
@@ -16,10 +16,12 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
-keywords = ["bcv", "exchange", "api", "venezuela", "http"]
+
+keywords = ["bcv", "exchange", "api", "venezuela", "http", "monitordolar", "binance", "yadio"]
 dependencies = [
     "requests>=2.32.3"
 ]
+
 requires-python = ">=3.9"
 
 [tool.setuptools.dynamic]

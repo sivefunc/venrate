@@ -1,11 +1,10 @@
-# bcv-api
-bcv-api is a small (fast ?) python library that connects to
-[BCV](https://www.bcv.org.ve) to parse html and get the current price of
-currencies in VEF. 
+# venrate
+venrate is a library to get the exchange rate from currency A to currency B from different platforms like [BCV](https://www.bcv.org.ve).
+
 <div align="center">
 <img
-    src="https://codeberg.org/Sivefunc/bcv-api/raw/branch/main/readme_res/logo.png"
-    alt="bcv logo"
+    src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/logo.png"
+    alt="venrate logo"
     width="200"
     height="200"/>
 </div>
@@ -15,38 +14,112 @@ currencies in VEF.
 - requests >= 2.32.3
 - dataclasses and typing (standard libraries)
 
-# Using bcv-api.
-<div align="center">
-<img
-    src="https://codeberg.org/Sivefunc/bcv-api/raw/branch/main/readme_res/exchange-rates.png"
-    alt="exchange rates"
-    width="200"
-    height="200"/>
-</div>
-
-```python3
-# importing BCV and creating object.
-from bcv_api import BCV
-bcv_con = BCV()
-
-# Get a currency
-eur = bcv_con.currencies[0]
-print(eur, bcv_con.get_currency(eur))
-
-# Get all currencies
-for currency, price in bcv_con.get_currencies().items():
-    print(currency, price)
-
-# Use last html saved by get_currencies() to not use internet in this query.
-cny = bcv_con.currencies[1]
-print(cny, bcv_con.get_currency(cny, use_last_html=True))
-```
-
 # Installation
-You can install BCV-api from [Pypi](https://pypi.org/project/bcv-api/)
+You can install venrate from [Pypi](https://pypi.org/project/venrate/)
 ```sh
-pip install bcv-api
+pip install venrate
 ```
 
-## Made by :link: [Sivefunc](https://gitlab.com/sivefunc)
-## Licensed under :link: [GPLv3](https://codeberg.org/Sivefunc/bcv-api/src/branch/main/LICENSE)
+# Using venrate.
+## Exchange rate from 'Bolivares' to 'US Dollars' in all platforms.
+```python3
+# importing venrate and creating object.
+from venrate import Venrate
+venrate = Venrate() 
+
+for p_name, platform in venrate.platforms.items():
+    currency_from = platform.currency_from
+    currency_to = platform.currency_to
+
+    rate = venrate.get_rate(
+            p_name,
+            currency_from,
+            currency_to,
+            use_last_response=False,
+            timeout=10,                 # This is a requests.request option
+            verify=True                 # This is a requests.request option
+            )
+
+    print(f"{p_name} rate from '{currency_from}' to '{currency_to}' is"
+            " " f"'{rate}'")
+```
+
+## Exchange rate from 'Bolivares' to 'US Dollars' using BCV.
+```python3
+# importing venrate and creating object
+from venrate import Venrate
+venrate = Venrate()
+
+platform_name = 'BcV' # Name is case insensitive
+bcv_rate = venrate.get_rate(
+            platform_name,
+            use_last_response=False,
+            timeout=10,
+            verify=False            # Lately BCV it's giving SSL errors
+            )
+
+print(bcv_rate)
+
+# Successfull requests.Response are saved, so you can use it later.
+bcv_rate = venrate.get_rate(
+            platform_name,
+            use_last_response=True,
+            timeout=10,
+            verify=False            # Lately BCV it's giving SSL errors
+            )
+
+print(bcv_rate)
+```
+
+## Default currency names that platforms uses
+```python3
+# importing venrate and creating object
+from venrate import Venrate
+venrate = Venrate()
+
+for p_name, platform in venrate.platforms.items():
+    currency_from = platform.currency_from
+    currency_to = platform.currency_to
+    print(p_name, currency_from, currency_to)
+
+# Why know this?
+# Platforms could have different naming for currencies
+# Binance for example uses USDT
+# MonitorDolar, BCV and Yadio uses USD
+```
+
+# :notebook: Notes <a name="notes"></a>
+- It's still a very premature library, it lacks:
+    - Documentation
+    - Tests
+    - More platforms
+    - More methods or new idea of superclass that results useful to use.
+
+- There are platforms like MonitorDolar that only does BS to USD so if you try using different currencies or different ordering it will throw the same rate.
+
+# Supported platforms
+<table>
+    <tr>
+        <td>Name</td>
+        <td>Image</td>
+    </tr>
+    <tr>
+        <td>Binance</td>
+        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/binance.png" width="100" height="100"></td>
+    </tr>
+    <tr>
+        <td>BCV</td>
+        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/bcv.png" width="100" height="100"></td>
+    </tr>
+    <tr>
+        <td>MonitorDolar</td>
+        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/monitordolar.png" width="100" height="100"></td>
+    </tr>
+    <tr>
+        <td>Yadio</td>
+        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/yadio.png" width="100" height="100"></td>
+    </tr>
+ </table>
+
+# Made by :link: [Sivefunc](https://gitlab.com/sivefunc)
+# Licensed under :link: [GPLv3](https://codeberg.org/Sivefunc/venrate/src/branch/main/LICENSE)
