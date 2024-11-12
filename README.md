@@ -3,7 +3,7 @@ Venrate is a library to get the exchange rate from currency A to currency B from
 
 <div align="center">
 <img
-    src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/logo.png"
+    src="https://codeberg.org/Sivefunc/venrate/raw/branch/venrate/readme_res/logo.png"
     alt="venrate logo"
     width="200"
     height="200"/>
@@ -105,19 +105,19 @@ for p_name, platform in venrate.platforms.items():
     </tr>
     <tr>
         <td>Binance</td>
-        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/binance.png" width="100" height="100"></td>
+        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/venrate/readme_res/binance.png" width="100" height="100"></td>
     </tr>
     <tr>
         <td>BCV</td>
-        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/bcv.png" width="100" height="100"></td>
+        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/venrate/readme_res/bcv.png" width="100" height="100"></td>
     </tr>
     <tr>
         <td>MonitorDolar</td>
-        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/monitordolar.png" width="100" height="100"></td>
+        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/venrate/readme_res/monitordolar.png" width="100" height="100"></td>
     </tr>
     <tr>
         <td>Yadio</td>
-        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/main/readme_res/yadio.png" width="100" height="100"></td>
+        <td><img src="https://codeberg.org/Sivefunc/venrate/raw/branch/venrate/readme_res/yadio.png" width="100" height="100"></td>
     </tr>
  </table>
 
