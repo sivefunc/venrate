@@ -35,7 +35,7 @@ class BCV(exchange.Exchange):
 
     method: str = "GET"
     url: str = "https://www.bcv.org.ve"
-    currency_from: str = "BS"
+    currency_from: str = "VES"
     currency_to: str = "USD"
 
     def get_rate(self,

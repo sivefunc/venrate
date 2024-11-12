@@ -8,7 +8,7 @@ import exchange
 class MonitorDolar(exchange.Exchange):
     method: str = "GET"
     url: str = "https://t.me/s/enparalelovzlatelegram"
-    currency_from: str = "BS"
+    currency_from: str = "VES"
     currency_to: str = "USD"
 
     def get_rate(self,

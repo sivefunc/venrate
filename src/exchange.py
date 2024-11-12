@@ -5,7 +5,6 @@ import requests
 # I don't know if this is the best naming for this class, TODO: Rename it
 # ; -- */ // -->
 
-
 class ExchangeError(Exception):
     """Exchange Error
     """
