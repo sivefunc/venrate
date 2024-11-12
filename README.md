@@ -6,7 +6,7 @@ Venrate is a library to get the exchange rate from currency A to currency B from
     src="https://codeberg.org/Sivefunc/venrate/raw/branch/venrate/readme_res/logo.png"
     alt="venrate logo"
     width="200"
-    height="200"/>
+    height="100"/>
 </div>
 
 # Requeriments
